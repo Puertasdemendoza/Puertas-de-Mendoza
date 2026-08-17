@@ -13,6 +13,9 @@
     --patina: #5c7a68;
     --text: #171512;
     --muted: #9a948a;
+    --grid-pad: 2px;
+    --grid-gap: 2px;
+    --grid-cols: 10;
   }
 
   *{box-sizing:border-box; margin:0; padding:0;}
@@ -28,8 +31,6 @@
     font-family:'Courier New', 'Space Mono', monospace;
     -webkit-font-smoothing:antialiased;
     min-height:100vh;
-    display:flex;
-    align-items:center;
   }
 
   /* portada */
@@ -59,6 +60,66 @@
   }
   .intro-text:hover{ opacity:0.6; }
 
+  /* página del autor */
+  .author-page{
+    position:fixed;
+    inset:0;
+    background:var(--bg);
+    z-index:210;
+    display:none;
+    overflow-y:auto;
+    padding:80px 24px 70px;
+  }
+  .author-page.show{ display:block; }
+
+  .author-content{
+    margin:0 auto;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+
+  .author-photo-wrap{
+    width: calc(2 * ((100vw - 2 * var(--grid-pad) - (var(--grid-cols) - 1) * var(--grid-gap)) / var(--grid-cols)) + var(--grid-gap));
+  }
+  .author-photo{
+    width:100%;
+    aspect-ratio:1/1;
+    object-fit:cover;
+    display:block;
+    background:#e9e5db;
+  }
+  .author-name{
+    margin-top:14px;
+    font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight:400;
+    font-size:11.5px;
+    color:var(--text);
+    text-align:center;
+    text-transform:uppercase;
+    white-space:nowrap;
+  }
+  .author-text{
+    margin-top:30px;
+    width: calc(2 * ((100vw - 2 * var(--grid-pad) - (var(--grid-cols) - 1) * var(--grid-gap)) / var(--grid-cols)) + var(--grid-gap));
+    font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight:400;
+    font-size:13px;
+    line-height:1.85;
+    color:var(--text);
+    text-align:justify;
+  }
+  .author-back{
+    display:inline-block;
+    margin-top:44px;
+    font-size:10px;
+    letter-spacing:0.15em;
+    color:var(--muted);
+    cursor:pointer;
+    text-transform:uppercase;
+  }
+  .author-back:hover{ color:var(--text); }
+
   .main-page{
     width:100%;
     display:none;
@@ -86,6 +147,18 @@
     margin-top:2px;
     mix-blend-mode:normal;
   }
+  .mark .author-link{
+    display:block;
+    margin-top:8px;
+    font-size:9px;
+    letter-spacing:0.15em;
+    color:var(--text);
+    cursor:pointer;
+    pointer-events:auto;
+    text-decoration:underline;
+    text-underline-offset:2px;
+  }
+  .mark .author-link:hover{ color:var(--muted); }
 
   .count{
     position:fixed;
@@ -120,54 +193,17 @@
   }
   .music-btn:hover{ opacity:1; }
 
-  /* fila de puertas */
+  /* grilla de puertas */
   .grid{
-    display:flex;
-    flex-direction:row;
-    align-items:center;
-    width:100%;
-    gap:18px;
-    padding:2px 24px 40px 24px;
-    overflow-x:auto;
-    cursor:grab;
-    scrollbar-width:none;
-    -ms-overflow-style:none;
-  }
-  .grid::-webkit-scrollbar{ display:none; }
-  .grid.dragging{ cursor:grabbing; }
-
-  .door-col{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    flex:1 1 0;
-    min-width:110px;
+    display:grid;
+    grid-template-columns:repeat(10, 1fr);
+    gap:2px;
+    padding:90px 2px 2px 2px;
   }
 
-  .slot{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-  }
-  .slot.top{ justify-content:flex-end; }
-  .slot.bottom{ justify-content:space-between; }
-
-  .stem{
-    width:1px;
-    background:var(--muted);
-    flex:0 0 auto;
-    height:26px;
-  }
-
-  .loc-label{
-    writing-mode:vertical-rl;
-    transform:rotate(180deg);
-    font-size:9.5px;
-    letter-spacing:0.12em;
-    color:var(--muted);
-    text-transform:uppercase;
-    white-space:nowrap;
-    padding:6px 0;
+  @media (max-width: 700px){
+    :root{ --grid-cols: 3; }
+    .grid{ grid-template-columns:repeat(3, 1fr); }
   }
 
   .door{
@@ -258,9 +294,20 @@
     <div class="intro-text" id="introText">PUERTAS</div>
   </div>
 
+  <div class="author-page" id="authorPage">
+    <div class="author-content">
+      <div class="author-photo-wrap">
+        <img class="author-photo" src="Fotos/Foto_Personal_02.png" alt="Arq. Roberto Quiroga Bergás">
+        <div class="author-name"><span id="authorNameText">Arq. Roberto Quiroga Bergás</span></div>
+      </div>
+      <p class="author-text">Formado en Arquitectura en la UNLP, a la par de la carrera y el desarrollo de la profesional, fue apareciendo la necesidad de retratar momentos, situaciones, escenas. La cámara fotográfica fue una compañera durante mucho tiempo. Pero como todo en la vida, uno busca ir más liviano, la cámara se tomó un descanso, y allí apareció la foto celu. Donde la inmediatez de la toma sería clave.</p>
+      <div class="author-back" id="authorBack">‹ VOLVER</div>
+    </div>
+  </div>
+
   <div class="main-page" id="mainPage">
 
-  <div class="mark">P.<span>INTERVENIDAS</span></div>
+  <div class="mark">P.<span>INTERVENIDAS</span><span class="author-link" id="authorLink">AUTOR</span></div>
   <div class="count"><b id="countNow">01</b> / <span id="countTotal">12</span></div>
 
   <audio id="bgMusic" loop>
@@ -302,88 +349,20 @@
     { src: "Fotos/P10.png",loc: "La Consulta, San Carlos" },
     { src: "Fotos/P11.png", loc: "Bombal, Godoy Cruz" },
     { src: "Fotos/P12.png", loc: "Bombal, Godoy Cruz" },
-    { src: "Fotos/P13.png", loc: "San Rafael" },
-    { src: "Fotos/P14.png", loc: "San Rafael" },
-    { src: "Fotos/P15.png", loc: "San Rafael" },
   ];
 
   const grid = document.getElementById('grid');
   const pad = n => String(n).padStart(2, '0');
 
   doors.forEach((d, i) => {
-    const col = document.createElement('div');
-    col.className = 'door-col';
-
-    const topSlot = document.createElement('div');
-    topSlot.className = 'slot top';
-    const bottomSlot = document.createElement('div');
-    bottomSlot.className = 'slot bottom';
-
-    if (d.loc) {
-      bottomSlot.innerHTML = `<div class="stem"></div><div class="loc-label">${d.loc}</div>`;
-    }
-
     const doorEl = document.createElement('div');
     doorEl.className = 'door';
     doorEl.innerHTML = `<img src="${d.src}" alt="Puerta ${pad(i+1)}" loading="lazy">`;
     doorEl.addEventListener('click', () => openLightbox(i));
-
-    col.appendChild(topSlot);
-    col.appendChild(doorEl);
-    col.appendChild(bottomSlot);
-    grid.appendChild(col);
+    grid.appendChild(doorEl);
   });
 
   document.getElementById('countTotal').textContent = pad(doors.length);
-
-  // justificar todas las etiquetas a la misma línea de base
-  const STEM_H = 26;
-  let maxLabelH = 0;
-  document.querySelectorAll('.loc-label').forEach(l => {
-    maxLabelH = Math.max(maxLabelH, l.offsetHeight);
-  });
-  const slotH = STEM_H + maxLabelH;
-  document.querySelectorAll('.slot.bottom').forEach(s => {
-    if (s.children.length) s.style.height = slotH + 'px';
-  });
-
-  // --- desplazamiento horizontal limpio (sin scrollbar visible) ---
-
-  // rueda del mouse (vertical) mueve la fila horizontalmente
-  grid.addEventListener('wheel', (e) => {
-    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-      e.preventDefault();
-      grid.scrollLeft += e.deltaY;
-    }
-  }, { passive: false });
-
-  // arrastrar con el mouse (click + mover)
-  let isDown = false;
-  let startX = 0;
-  let startScroll = 0;
-
-  grid.addEventListener('mousedown', (e) => {
-    isDown = true;
-    grid.classList.add('dragging');
-    startX = e.pageX;
-    startScroll = grid.scrollLeft;
-  });
-  window.addEventListener('mouseup', () => {
-    isDown = false;
-    grid.classList.remove('dragging');
-  });
-  window.addEventListener('mousemove', (e) => {
-    if (!isDown) return;
-    e.preventDefault();
-    grid.scrollLeft = startScroll - (e.pageX - startX);
-  });
-
-  // flechas del teclado: si el lightbox está cerrado, mueven la fila
-  document.addEventListener('keydown', (e) => {
-    if (lightbox.classList.contains('open')) return;
-    if (e.key === 'ArrowRight') grid.scrollBy({ left: 220, behavior: 'smooth' });
-    if (e.key === 'ArrowLeft') grid.scrollBy({ left: -220, behavior: 'smooth' });
-  });
 
   // música de fondo
   const bgMusic = document.getElementById('bgMusic');
@@ -405,10 +384,12 @@
   const intro = document.getElementById('intro');
   const introText = document.getElementById('introText');
   const mainPage = document.getElementById('mainPage');
+  const authorPage = document.getElementById('authorPage');
+  const authorLink = document.getElementById('authorLink');
 
   introText.addEventListener('click', () => {
-    mainPage.classList.add('show');
     intro.classList.add('hide');
+    mainPage.classList.add('show');
 
     bgMusic.play().then(() => {
       playing = true;
@@ -416,6 +397,30 @@
     }).catch(() => {});
 
     setTimeout(() => { intro.style.display = 'none'; }, 800);
+  });
+
+  // link "Autor" bajo la marca de esquina
+  const authorNameText = document.getElementById('authorNameText');
+
+  // estira el nombre (letra por letra, sin espacio entre palabras) hasta igualar el ancho de la foto
+  function stretchAuthorName(){
+    authorNameText.style.letterSpacing = '0';
+    const targetWidth = document.querySelector('.author-photo-wrap').getBoundingClientRect().width;
+    const naturalWidth = authorNameText.getBoundingClientRect().width;
+    const chars = authorNameText.textContent.trim().length;
+    const extra = targetWidth - naturalWidth;
+    authorNameText.style.letterSpacing = (extra / (chars - 1)) + 'px';
+  }
+
+  authorLink.addEventListener('click', () => {
+    authorPage.classList.add('show');
+    stretchAuthorName();
+  });
+  window.addEventListener('resize', () => {
+    if (authorPage.classList.contains('show')) stretchAuthorName();
+  });
+  document.getElementById('authorBack').addEventListener('click', () => {
+    authorPage.classList.remove('show');
   });
 
   // lightbox
