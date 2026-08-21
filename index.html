@@ -52,6 +52,7 @@
     display:flex;
     align-items:center;
     justify-content:center;
+    cursor:pointer;
     transition:opacity .8s ease;
   }
   .intro.hide{
@@ -63,12 +64,19 @@
     font-size:clamp(38px, 8vw, 84px);
     letter-spacing:0.05em;
     color:var(--text);
-    cursor:pointer;
     padding-left:0.05em;
     user-select:none;
-    transition:opacity .3s ease;
+    animation:breathe 3.2s ease-in-out infinite;
   }
-  .intro-text:hover{ opacity:0.6; }
+
+  @keyframes breathe{
+    0%, 100%{ opacity:1; }
+    50%{ opacity:0.55; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .intro-text{ animation:none; }
+  }
 
   /* página del autor */
   .author-page{
@@ -506,7 +514,8 @@
   const creditsPage = document.getElementById('creditsPage');
   const creditsLink = document.getElementById('creditsLink');
 
-  introText.addEventListener('click', () => {
+  // portada: al tocar en cualquier parte de la pantalla entra a la galería y arranca la música
+  function enterSite(){
     intro.classList.add('hide');
     mainPage.classList.add('show');
 
@@ -516,7 +525,9 @@
     }).catch(() => {});
 
     setTimeout(() => { intro.style.display = 'none'; }, 800);
-  });
+  }
+
+  intro.addEventListener('click', enterSite);
 
   // link "Autor" bajo la marca de esquina
   const authorNameText = document.getElementById('authorNameText');
