@@ -131,6 +131,48 @@
   .author-back:hover{ color:var(--text); }
 
   /* página de la obra */
+  /* página de créditos */
+  .credits-page{
+    position:fixed;
+    inset:0;
+    background:var(--bg);
+    z-index:210;
+    display:none;
+    overflow-y:auto;
+    padding:80px 24px 70px;
+  }
+  .credits-page.show{ display:block; }
+
+  .credits-content{
+    margin:0 auto;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+
+  .credits-text{
+    width: calc(2 * ((100vw - 2 * var(--grid-pad) - (var(--grid-cols) - 1) * var(--grid-gap)) / var(--grid-cols)) + var(--grid-gap));
+    font-family:Calibri, Carlito, Arial, sans-serif;
+    font-weight:400;
+    font-size:13px;
+    line-height:1.85;
+    color:var(--text);
+    text-align:justify;
+  }
+  .credits-text + .credits-text{
+    margin-top:20px;
+  }
+  .credits-back{
+    display:inline-block;
+    margin-top:44px;
+    font-size:10px;
+    letter-spacing:0.15em;
+    color:var(--muted);
+    cursor:pointer;
+    text-transform:uppercase;
+  }
+  .credits-back:hover{ color:var(--text); }
+
   .obra-page{
     position:fixed;
     inset:0;
@@ -247,7 +289,7 @@
     display:grid;
     grid-template-columns:repeat(10, 1fr);
     gap:2px;
-    padding:90px 2px 2px 2px;
+    padding:150px 2px 2px 2px;
   }
 
   @media (max-width: 700px){
@@ -354,6 +396,14 @@
     </div>
   </div>
 
+  <div class="credits-page" id="creditsPage">
+    <div class="credits-content">
+      <p class="credits-text">Música: Lisandro Sandes, Versión "200 años" (Luis Alberto Spinetta)<br>Pintura en Foto 2: Julia Balduzzi Seijo</p>
+      <p class="credits-text">Gracias a todas las personas que me alientan día a día a expresar lo que siento.</p>
+      <div class="credits-back" id="creditsBack">‹ VOLVER</div>
+    </div>
+  </div>
+
   <div class="obra-page" id="obraPage">
     <div class="obra-content">
       <p class="obra-text">La serie Umbrales se desarrolla como un ensayo visual que indaga en el límite entre lo público y lo privado a través del registro de puertas en contextos urbanos. Lejos de ser entendidas únicamente como elementos arquitectónicos, las puertas son abordadas como dispositivos simbólicos que condensan historias, prácticas y modos de habitar. Cada imagen parte de un registro fotográfico que luego es intervenido mediante la incorporación de dibujos, escenas y gráficos que remiten a aquello que sucede más allá del plano visible. Estas intervenciones no funcionan como ilustraciones descriptivas, sino como capas de sentido que sugieren la vida contenida en el interior: lo doméstico, lo productivo, lo afectivo y lo cultural. En este sentido, la puerta deja de ser un límite estático para convertirse en un umbral activo, un espacio de transición donde lo íntimo y lo público se tensionan y se proyectan mutuamente. La calle aparece entonces como extensión de lo privado, y lo privado como una dimensión latente en lo urbano. Umbrales no se plantea como una serie cerrada, sino como un ensayo en proceso que forma parte de una investigación mayor sobre la relación entre arquitectura, memoria y experiencia cotidiana. Cada pieza funciona como un fragmento de ese estudio más amplio, donde la ciudad es entendida como un archivo vivo de prácticas, relatos y huellas. Desde una perspectiva contemporánea, el trabajo propone una lectura sensible del entorno construido, en la que la materialidad de la arquitectura se entrelaza con imaginarios y narrativas invisibles, poniendo en evidencia que habitar no es únicamente ocupar un espacio, sino también cargarlo de sentido.</p>
@@ -363,7 +413,7 @@
 
   <div class="main-page" id="mainPage">
 
-  <div class="mark">P.<span>INTERVENIDAS</span><span class="author-link" id="obraLink">OBRA</span><span class="author-link" id="authorLink">AUTOR</span></div>
+  <div class="mark">P.<span>INTERVENIDAS</span><span class="author-link" id="obraLink">OBRA</span><span class="author-link" id="authorLink">AUTOR</span><span class="author-link" id="creditsLink">CRÉDITOS</span></div>
   <div class="count"><b id="countNow">01</b> / <span id="countTotal">12</span></div>
 
   <audio id="bgMusic" loop>
@@ -413,6 +463,7 @@
     { src: "Fotos/P18.png", loc: "5ta Seeción, Mendoza" },
     { src: "Fotos/P19.png", loc: "San Rafael" },
     { src: "Fotos/P20.png", loc: "La Consulta, San Carlos" },
+    { src: "Fotos/P21.png", loc: "La Consulta, San Carlos" },
   ];
 
   const grid = document.getElementById('grid');
@@ -452,6 +503,8 @@
   const authorLink = document.getElementById('authorLink');
   const obraPage = document.getElementById('obraPage');
   const obraLink = document.getElementById('obraLink');
+  const creditsPage = document.getElementById('creditsPage');
+  const creditsLink = document.getElementById('creditsLink');
 
   introText.addEventListener('click', () => {
     intro.classList.add('hide');
@@ -487,6 +540,14 @@
   });
   document.getElementById('authorBack').addEventListener('click', () => {
     authorPage.classList.remove('show');
+  });
+
+  // link "Créditos" bajo la marca de esquina
+  creditsLink.addEventListener('click', () => {
+    creditsPage.classList.add('show');
+  });
+  document.getElementById('creditsBack').addEventListener('click', () => {
+    creditsPage.classList.remove('show');
   });
 
   // link "Obra" bajo la marca de esquina
